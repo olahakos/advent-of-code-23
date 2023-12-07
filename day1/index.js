@@ -21,14 +21,27 @@ const isNumber = (char) => {
 18: {2, 'two'},
 */
 
-const searchIndexer = (str, searchArr) => {
-  numberString.forEach((numbText, numb) => {
-    const firstIndex = str.indexOf(numbText);
-    const lastIndex = str.lastIndexOf(numbText);
-    if (firstIndex > -1) searchArr[firstIndex] = {numbText, 'numb': numb+1};
-    if (lastIndex > -1) searchArr[lastIndex] = {numbText, 'numb': numb+1};
+const convertNumbersFront = (line) => {
+  let buffer = '';
+  line
+    .split('')
+    .forEach(char => {
+      buffer = `${buffer}${char}`;
+      buffer = replaceStrings(buffer);
   });
-  return searchArr;
+  return buffer;
+}
+
+const convertNumbersBack = (line) => {
+  let buffer = '';
+  line
+    .split('')
+    .reverse()
+    .forEach(char => {
+      buffer = `${char}${buffer}`;
+      buffer = replaceStrings(buffer);
+  });
+  return buffer;
 }
 
 const replaceStrings = (str) => {
@@ -43,15 +56,23 @@ const getNumbersOut = (data) => {
   let total = 0;
   const dataArr = data.split('\n');
   dataArr.forEach(line => {
-      var numbArr = [];
-      const replacedLine = replaceStrings(line);
-      replacedLine
+      var numbArrFront = [];
+      var numbArrBack = [];
+      const replacedLineFront = convertNumbersFront(line);
+      const replacedLineBack = convertNumbersBack(line);
+
+      replacedLineFront
         .split('')
         .forEach(char => {
-          if (isNumber(char)) numbArr.push(char)
+          if (isNumber(char)) numbArrFront.push(char)
       })
-      if (numbArr[0]) total += parseInt(numbArr[0])*10;
-      if (numbArr[numbArr.length - 1]) total += parseInt(numbArr[numbArr.length - 1]);
+      replacedLineBack
+        .split('')
+        .forEach(char => {
+          if (isNumber(char)) numbArrBack.push(char)
+      })
+      if (numbArrFront[0]) total += parseInt(numbArrFront[0])*10;
+      if (numbArrBack[numbArrBack.length - 1]) total += parseInt(numbArrBack[numbArrBack.length - 1]);
   });
   return total;
 }
@@ -68,6 +89,7 @@ module.exports = {
   isNumber,
   getNumbersOut,
   replaceStrings,
-  searchIndexer,
+  convertNumbersFront,
+  convertNumbersBack,
   numberString,
 }
