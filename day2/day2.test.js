@@ -1,5 +1,11 @@
 import {describe, expect, test} from '@jest/globals';
-import { getCommulatedGameNumbers, getDataByDices, getDrawObject, getLineSegments, lineValidator } from './day2.js';
+import { 
+    getCommulatedGameNumbers, 
+    getCommulatedPowerNumbers, 
+    getDrawObject,
+    getLineSegments,
+    lineValidator,
+    getPowerNumber } from './day2.js';
 
 describe('Line segmentation', () => {
     test('Get the righ game number for 1 digit', () => {
@@ -92,5 +98,31 @@ describe('Commulated Lines', () => {
         Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`
         const testResult = getCommulatedGameNumbers(testLines);
         expect(testResult).toBe(8);
+    });
+});
+
+describe('Power Numbers', () => {
+    test('Get Power Number for a line', () => {
+        const testLine = {
+            gameNumber: 3,
+            draws: [
+                {'green': 8, 'blue': 6,'red': 20},
+                {'green': 13, 'blue': 5,'red': 4},
+                {'green': 5, 'red': 1},
+            ]
+        }
+        const testResult = getPowerNumber(testLine);
+        expect(testResult).toBe(1560);
+    });
+
+    test('Get the example lines', () => {
+        const testLines = 
+        `Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+        Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+        Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+        Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+        Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green`
+        const testResult = getCommulatedPowerNumbers(testLines);
+        expect(testResult).toBe(2286);
     });
 });

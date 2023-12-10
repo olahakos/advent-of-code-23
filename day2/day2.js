@@ -52,6 +52,21 @@ const lineValidator = (lineObject) => {
     return true;
 }
 
+const getPowerNumber = (lineObject) => {
+    if (!lineObject || !lineObject.gameNumber) return 0;
+    const minObject = {
+        red: 0,
+        green: 0,
+        blue: 0,
+    }
+    for (const draw of lineObject.draws) {
+        if (draw.red > minObject.red) minObject.red = draw.red;
+        if (draw.green > minObject.green) minObject.green = draw.green;
+        if (draw.blue > minObject.blue) minObject.blue = draw.blue;
+    }
+    return (minObject.red * minObject.blue * minObject.green);
+}
+
 const getCommulatedGameNumbers = (lines) => {
     let total = 0;
     lines.split('\n').forEach(line => {
@@ -63,9 +78,19 @@ const getCommulatedGameNumbers = (lines) => {
     return total;
 }
 
+const getCommulatedPowerNumbers = (lines) => {
+    let total = 0;
+    lines.split('\n').forEach(line => {
+        const lineObject = getLineSegments(line);
+        total += getPowerNumber(lineObject);
+    })
+    return total;
+}
+
 const main = async () => {
     const data = await fileReader('./day2/day2.input.txt')
-    const total = getCommulatedGameNumbers(data)
+    // const total = getCommulatedGameNumbers(data)
+    const total = getCommulatedPowerNumbers(data)
     console.log(total);
 }
 
@@ -76,5 +101,7 @@ export {
     getDrawObject,
     getDataByDices,
     lineValidator,
+    getPowerNumber,
     getCommulatedGameNumbers,
+    getCommulatedPowerNumbers,
 }
