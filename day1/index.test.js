@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import { getNumbersOut, isNumber, convertNumbersFront, convertNumbersBack } from "./index";
+import { getNumbersOut, isNumber, convertNumbersFront, convertNumbersBack } from "./index.js";
 
 describe('convertNumbersFront', () => {
     test('replacing string in the beginning', () => {

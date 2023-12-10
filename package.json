@@ -1,0 +1,33 @@
+{
+  "name": "advent-of-code-23",
+  "version": "1.0.0",
+  "description": "Advent of code",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "babel-node day2/day2.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olahakos/advent-of-code-23.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olahakos/advent-of-code-23/issues"
+  },
+  "homepage": "https://github.com/olahakos/advent-of-code-23#readme",
+  "dependencies": {
+    "babel-jest": "^29.7.0",
+    "test": "^3.3.0",
+    "ts-jest": "^29.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.5",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.23.5",
+    "@babel/register": "^7.22.15",
+    "jest": "^29.7.0"
+  }
+}
