@@ -6,15 +6,11 @@ const bagLock = {
     'blue': 14,
 };
 
-const getGameNumber = function (line) {
-    const lineArr = line.slice(' ');
-    console.log(lineArr[1]);
-}
 
 const getLineSegments = function (line) {
     const segmentedLine = {};
-    const lineByColumn = line.slice(':');
-    segmentedLine.header = lineByColumn[0];
+    const lineByColumn = line.split(':');
+    segmentedLine.gameNumber = lineByColumn[0].split(' ')[1];
     return segmentedLine;
 }
 
