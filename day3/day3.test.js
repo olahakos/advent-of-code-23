@@ -4,20 +4,10 @@ import {
     createMatrix,
     findNextItem,
     getNumberValue,
+    getValidNumbersFromMtx,
     isNumberConnected,
     stepUp,
 } from "./day3.js";
-
-const testData = `467..114..
-...*......
-..35..633.
-......#...
-617*......
-.....+.58.
-..592.....
-......755.
-...$.*....
-.664.598..`;
 
 const mtx = [
     [".", ".", "3"],
@@ -46,14 +36,14 @@ describe("stepUp", () => {
         const w = 3;
         const h = 3;
         const testResult = stepUp(c, w, h);
-        expect(testResult).toEqual([1, 0]);
+        expect(testResult).toEqual([0, 1]);
     });
     test("Line end", () => {
-        const c = [2, 0];
+        const c = [0, 2];
         const w = 3;
         const h = 3;
         const testResult = stepUp(c, w, h);
-        expect(testResult).toEqual([0, 1]);
+        expect(testResult).toEqual([1, 0]);
     });
     test("MTX end", () => {
         const c = [2, 2];
@@ -68,17 +58,17 @@ describe("findNextItem", () => {
     test("Normal case", () => {
         const c = [0, 0];
         const testResult = findNextItem(mtx, c);
-        expect(testResult).toEqual([2, 0]);
+        expect(testResult).toEqual([0, 2]);
     });
     test("Already number", () => {
-        const c = [2, 0];
+        const c = [0, 2];
         const testResult = findNextItem(mtx, c);
-        expect(testResult).toEqual([2, 0]);
+        expect(testResult).toEqual([0, 2]);
     });
     test("Line Break", () => {
         const c = [1, 1];
         const testResult = findNextItem(mtx, c);
-        expect(testResult).toEqual([1, 2]);
+        expect(testResult).toEqual([2, 1]);
     });
     test("End Of MTX", () => {
         const c = [2, 2];
@@ -93,14 +83,14 @@ describe("getNumberValue", () => {
         const c = [0, 1];
         const testResult = getNumberValue(mtx2, c);
         const shouldBe = 23;
-        expect(testResult).toEqual(shouldBe);
+        expect(testResult.value).toEqual(shouldBe);
     });
     test("EndLine case", () => {
         const mtx2 = [["#", "2", "3"]];
         const c = [0, 1];
         const testResult = getNumberValue(mtx2, c);
         const shouldBe = 23;
-        expect(testResult).toEqual(shouldBe);
+        expect(testResult.value).toEqual(shouldBe);
     });
 });
 
@@ -175,5 +165,24 @@ describe("checkRow", () => {
         const l = 3;
         const testResult = checkRow(arr, 1, l);
         expect(testResult).toBe(true);
+    });
+});
+
+const testData = `467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..`;
+
+describe("main", () => {
+    test("testData", () => {
+        const mtx = createMatrix(testData);
+        const testResult = getValidNumbersFromMtx(mtx);
+        expect(testResult).toBe(4361);
     });
 });

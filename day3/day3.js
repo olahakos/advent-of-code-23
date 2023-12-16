@@ -21,9 +21,9 @@ const getMatrixCol = (mtx, j) => {
 };
 
 const stepUp = (c, w, h) => {
-    c[0]++;
-    if (c[0] < w) return [c[0], c[1]];
-    else if (c[1] + 1 < h) return [0, c[1] + 1];
+    c[1]++;
+    if (c[1] < w) return [c[0], c[1]];
+    else if (c[0] + 1 < h) return [c[0] + 1, 0];
     else return false;
 };
 
@@ -33,13 +33,13 @@ const findNextItem = (mtx, c) => {
     let foundIt = false;
     let end = false;
     while (!foundIt && !end) {
-        if (whatIsThisCharacter(mtx[c[1]][c[0]]) === "NUMBER") foundIt = true;
+        if (whatIsThisCharacter(mtx[c[0]][c[1]]) === "NUMBER") foundIt = true;
         else {
             c = stepUp(c, width, height);
             if (!c) end = true;
         }
     }
-    console.log(foundIt, c);
+    // console.log(foundIt, c);
     if (foundIt) return c;
     return false;
 };
@@ -84,17 +84,34 @@ const getNumberValue = (mtx, cursor) => {
         c[1] = c[1] + 1;
     }
     const isConnected = isNumberConnected(mtx, cursor, value.toString().length);
-    return isConnected ? value : false;
+    return {
+        value: isConnected ? value : 0,
+        length: value.toString().length,
+    };
 };
 
 // 1. find next number in the matrix
 // 2. get the value of the item (depends on symbol closeness)
 // 3. commulate total number
 // 4. recursion
-const getValidNumbersFromMtx = (mtx, cursor, total) => {
+const getValidNumbersFromMtx = (mtx) => {
+    let cursor = [0, 0];
+    let total = 0;
+    cursor = findNextItem(mtx, cursor);
     while (cursor) {
+        const { value, length } = getNumberValue(mtx, cursor);
+        total += value;
+
+        if (cursor[1] + length === mtx[0].length) {
+            if (cursor[0] === mtx.length - 1) cursor = false;
+            else {
+                cursor[0]++;
+                cursor[1] = 0;
+            }
+        } else {
+            cursor[1] += length;
+        }
         cursor = findNextItem(mtx, cursor);
-        total += getNumberValue(mtx, cursor);
     }
     return total;
     // {cursor, value} = getItemValue(cursor);
@@ -107,7 +124,7 @@ const getValidNumbersFromMtx = (mtx, cursor, total) => {
 const main = async () => {
     const data = await fileReader("./day3/day3.input.txt");
     const mtx = createMatrix(data);
-    const total = getValidNumbersFromMtx(mtx, [0, 0], 0);
+    const total = getValidNumbersFromMtx(mtx);
     console.log(total);
 };
 
