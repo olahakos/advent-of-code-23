@@ -38,21 +38,16 @@ const findNextItem = (mtx, c) => {
 /**
  * mtx: [][];
  * c: [i,j]
- *  return: {
- * int length: # of characters
- * int value: value of the number
- * }
+ * return int value: value of the number
  */
 const getNumberValue = (mtx, c) => {
-    let length = 0,
-        value = 0;
+    let value = 0;
     if (!mtx) return { length, value };
     while (isNumber(mtx[c[0]][c[1]])) {
-        length++;
         value = value * 10 + parseInt(mtx[c[0]][c[1]]);
         c[1] = c[1] + 1;
     }
-    return { length, value };
+    return value;
 };
 
 // 1. find next number in the matrix

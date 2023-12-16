@@ -85,20 +85,14 @@ describe("getNumberValue", () => {
         const mtx2 = [[".", "2", "3", "."]];
         const c = [0, 1];
         const testResult = getNumberValue(mtx2, c);
-        const shouldBe = {
-            length: 2,
-            value: 23,
-        };
+        const shouldBe = 23;
         expect(testResult).toEqual(shouldBe);
     });
     test("EndLine case", () => {
         const mtx2 = [[".", "2", "3"]];
         const c = [0, 1];
         const testResult = getNumberValue(mtx2, c);
-        const shouldBe = {
-            length: 2,
-            value: 23,
-        };
+        const shouldBe = 23;
         expect(testResult).toEqual(shouldBe);
     });
 });
