@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { createMatrix, findNextItem, stepUp } from "./day3.js";
+import { createMatrix, findNextItem, getNumberValue, stepUp } from "./day3.js";
 
 const testData = `467..114..
 ...*......
@@ -77,5 +77,28 @@ describe("findNextItem", () => {
         const c = [2, 2];
         const testResult = findNextItem(mtx, c);
         expect(testResult).toEqual(false);
+    });
+});
+
+describe("getNumberValue", () => {
+    test("Normal case", () => {
+        const mtx2 = [[".", "2", "3", "."]];
+        const c = [0, 1];
+        const testResult = getNumberValue(mtx2, c);
+        const shouldBe = {
+            length: 2,
+            value: 23,
+        };
+        expect(testResult).toEqual(shouldBe);
+    });
+    test("EndLine case", () => {
+        const mtx2 = [[".", "2", "3"]];
+        const c = [0, 1];
+        const testResult = getNumberValue(mtx2, c);
+        const shouldBe = {
+            length: 2,
+            value: 23,
+        };
+        expect(testResult).toEqual(shouldBe);
     });
 });

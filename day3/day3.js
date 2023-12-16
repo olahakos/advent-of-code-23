@@ -1,4 +1,4 @@
-import { whatIsThisCharacter } from "../shared/cleanString.js";
+import { isNumber, whatIsThisCharacter } from "../shared/cleanString.js";
 import { fileReader } from "../shared/fileReader.js";
 
 const createMatrix = (data) => {
@@ -35,6 +35,26 @@ const findNextItem = (mtx, c) => {
     return false;
 };
 
+/**
+ * mtx: [][];
+ * c: [i,j]
+ *  return: {
+ * int length: # of characters
+ * int value: value of the number
+ * }
+ */
+const getNumberValue = (mtx, c) => {
+    let length = 0,
+        value = 0;
+    if (!mtx) return { length, value };
+    while (isNumber(mtx[c[0]][c[1]])) {
+        length++;
+        value = value * 10 + parseInt(mtx[c[0]][c[1]]);
+        c[1] = c[1] + 1;
+    }
+    return { length, value };
+};
+
 // 1. find next number in the matrix
 // 2. get the value of the item (depends on symbol closeness)
 // 3. commulate total number
@@ -59,4 +79,10 @@ const main = async () => {
 
 if (process.env.NODE_ENV !== "test") main();
 
-export { createMatrix, getValidNumbersFromMtx, stepUp, findNextItem };
+export {
+    createMatrix,
+    getValidNumbersFromMtx,
+    stepUp,
+    findNextItem,
+    getNumberValue,
+};
