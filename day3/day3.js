@@ -12,6 +12,14 @@ const createMatrix = (data) => {
     return mtx;
 };
 
+const getMatrixCol = (mtx, j) => {
+    const arr = [];
+    for (let i = 0; i < mtx.length; i++) {
+        arr.push(mtx[i][j]);
+    }
+    return arr;
+};
+
 const stepUp = (c, w, h) => {
     c[0]++;
     if (c[0] < w) return [c[0], c[1]];
@@ -31,7 +39,32 @@ const findNextItem = (mtx, c) => {
             if (!c) end = true;
         }
     }
+    console.log(foundIt, c);
     if (foundIt) return c;
+    return false;
+};
+
+const checkRow = (arr, ind, l) => {
+    if (!arr) return false;
+    for (let i = ind; i < ind + l; i++) {
+        if (arr[i] && whatIsThisCharacter(arr[i]) === "SYMBOL") return true;
+    }
+    return false;
+};
+
+const isNumberConnected = (mtx, c, length) => {
+    if (c[0] > 0 && checkRow(mtx[c[0] - 1], c[1], length)) return true;
+    if (c[0] + 1 < mtx[0].length && checkRow(mtx[c[0] + 1], c[1], length))
+        return true;
+
+    if (c[1] > 0 && checkRow(getMatrixCol(mtx, c[1] - 1), c[0] - 1, 3))
+        return true;
+    const endIndex = c[1] + length;
+    if (
+        endIndex < mtx[0].length &&
+        checkRow(getMatrixCol(mtx, endIndex), c[0] - 1, 3)
+    )
+        return true;
     return false;
 };
 
@@ -40,14 +73,18 @@ const findNextItem = (mtx, c) => {
  * c: [i,j]
  * return int value: value of the number
  */
-const getNumberValue = (mtx, c) => {
+const getNumberValue = (mtx, cursor) => {
     let value = 0;
+    let c = [];
+    c[0] = cursor[0];
+    c[1] = cursor[1];
     if (!mtx) return { length, value };
     while (isNumber(mtx[c[0]][c[1]])) {
         value = value * 10 + parseInt(mtx[c[0]][c[1]]);
         c[1] = c[1] + 1;
     }
-    return value;
+    const isConnected = isNumberConnected(mtx, cursor, value.toString().length);
+    return isConnected ? value : false;
 };
 
 // 1. find next number in the matrix
@@ -55,9 +92,11 @@ const getNumberValue = (mtx, c) => {
 // 3. commulate total number
 // 4. recursion
 const getValidNumbersFromMtx = (mtx, cursor, total) => {
-    cursor = findNextItem(mtx, cursor);
-    if (!cursor) return total; // end of mtx
-
+    while (cursor) {
+        cursor = findNextItem(mtx, cursor);
+        total += getNumberValue(mtx, cursor);
+    }
+    return total;
     // {cursor, value} = getItemValue(cursor);
     // return {
     //     cursor,
@@ -80,4 +119,6 @@ export {
     stepUp,
     findNextItem,
     getNumberValue,
+    isNumberConnected,
+    checkRow,
 };

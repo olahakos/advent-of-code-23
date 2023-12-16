@@ -1,5 +1,12 @@
 import { describe, expect, test } from "@jest/globals";
-import { createMatrix, findNextItem, getNumberValue, stepUp } from "./day3.js";
+import {
+    checkRow,
+    createMatrix,
+    findNextItem,
+    getNumberValue,
+    isNumberConnected,
+    stepUp,
+} from "./day3.js";
 
 const testData = `467..114..
 ...*......
@@ -82,17 +89,91 @@ describe("findNextItem", () => {
 
 describe("getNumberValue", () => {
     test("Normal case", () => {
-        const mtx2 = [[".", "2", "3", "."]];
+        const mtx2 = [[".", "2", "3", "%"]];
         const c = [0, 1];
         const testResult = getNumberValue(mtx2, c);
         const shouldBe = 23;
         expect(testResult).toEqual(shouldBe);
     });
     test("EndLine case", () => {
-        const mtx2 = [[".", "2", "3"]];
+        const mtx2 = [["#", "2", "3"]];
         const c = [0, 1];
         const testResult = getNumberValue(mtx2, c);
         const shouldBe = 23;
         expect(testResult).toEqual(shouldBe);
+    });
+});
+
+describe("isNumberConnected", () => {
+    test("Normal not connected", () => {
+        const mtx2 = [
+            [".", ".", "3", ".", "."],
+            [".", "2", "3", "4", "."],
+            [".", ".", ".", ".", "."],
+        ];
+        const c = [1, 1];
+        const testResult = isNumberConnected(mtx2, c, 3);
+        expect(testResult).toBe(false);
+    });
+    test("Normal connected", () => {
+        const mtx2 = [
+            [".", ".", "3", ".", "."],
+            [".", "2", "3", "4", "."],
+            [".", "%", ".", ".", "."],
+        ];
+        const c = [1, 1];
+        const testResult = isNumberConnected(mtx2, c, 3);
+        expect(testResult).toBe(true);
+    });
+    test("left no connected", () => {
+        const mtx2 = [
+            [".", ".", "3", ".", "."],
+            ["1", "2", "3", "4", "."],
+            [".", ".", ".", ".", "."],
+        ];
+        const c = [1, 0];
+        const testResult = isNumberConnected(mtx2, c, 4);
+        expect(testResult).toBe(false);
+    });
+    test("first row no connected", () => {
+        const mtx2 = [
+            ["1", "2", "3", "4", "."],
+            [".", ".", ".", ".", "."],
+        ];
+        const c = [0, 0];
+        const testResult = isNumberConnected(mtx2, c, 4);
+        expect(testResult).toBe(false);
+    });
+    test("first row connected", () => {
+        const mtx2 = [
+            ["1", "2", "3", "4", "."],
+            [".", ".", ".", ".", "%"],
+        ];
+        const c = [0, 0];
+        const testResult = isNumberConnected(mtx2, c, 4);
+        expect(testResult).toBe(true);
+    });
+    test("single row", () => {
+        const mtx2 = [[".", "2", "3", "%"]];
+        const c = [0, 1];
+        const testResult = isNumberConnected(mtx2, c, 2);
+        expect(testResult).toBe(true);
+    });
+});
+
+describe("checkRow", () => {
+    test("No symbol", () => {
+        const arr = [".", ".", "$", ".", "."];
+        const c = 1;
+        const l = 1;
+        const testResult = checkRow(arr, 1, l);
+        expect(testResult).toBe(false);
+    });
+    test("Yes symbol", () => {
+        const arr = [".", ".", "$", ".", "."];
+        const c = 1;
+        const l = 3;
+        const testResult = checkRow(arr, 1, l);
+        expect(testResult).toBe(true);
     });
 });
