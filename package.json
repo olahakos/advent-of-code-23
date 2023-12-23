@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "babel-node day3/day3.js"
+    "start": "babel-node day23/day23.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/olahakos/advent-of-code-23#readme",
   "dependencies": {
     "babel-jest": "^29.7.0",
+    "graphlib": "^2.1.8",
     "test": "^3.3.0",
     "ts-jest": "^29.1.1"
   },
